@@ -13,7 +13,7 @@ class Post(BaseModel):
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to my API!!"}
+    return {"message": "Welcome to my world!!"}
 
 # Function for getting posts
 
