@@ -1,12 +1,12 @@
-name: Build an Deploy Code
+name: Build and Deploy Code
 
-on: [push, pu;;_request]
+on: [push, pull_request]
 
 jobs:
   job1:
     runs-on: macos-latest
     steps:
-      - name: pullinf git repo
+      - name: pulling git repo
         uses: actions/checkout@v2
       - name: say hi to moi
         run: echo "hello madre" 
