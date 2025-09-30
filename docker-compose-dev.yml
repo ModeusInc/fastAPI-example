@@ -1,0 +1,39 @@
+services:
+  api:
+    build: .
+    depends_on:
+      - postgres
+    ports:
+      - 8000:8000
+    environment:
+      - DATABASE_HOSTNAME=postgres
+      - DATABASE_PORT=5432
+      - DATABASE_PASSWORD=Sanchez7
+      - DATABASE_NAME=fastapi
+      - DATABASE_USERNAME=postgres
+      - SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_MINUTES=30
+      # Or instead of listing all the variables we could just do this 
+    env_file:
+      - ./.env
+
+  # Use postgres/example user/password credentials
+
+  postgres:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker compose
+    shm_size: 128mb
+    #This maps a folder on your mac to the internal directory. So your database survives container restarts/deletes.
+    volumes:
+      - ./postgres-db:/usr/src/app:ro
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+    environment:
+      POSTGRES_DB: fastapi
+      POSTGRES_PASSWORD: pw123
+
+#This is defined in the main aree so multiple containers can access them by calling the directory 
+volumes:
+  postgres-db:

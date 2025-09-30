@@ -1,0 +1,35 @@
+services:
+  api:
+    image: modeusinc/fastapi
+    depends_on:
+      - postgres
+    ports:
+      - 80:8000
+    environment:
+      - DATABASE_HOSTNAME=${DATABASE_HOSTNAME}
+      - DATABASE_PORT=${DATABASE_PORT}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE_NAME=${DATABASE_NAME}
+      - DATABASE_USERNAME=${DATABASE_USERNAME}
+      - SECRET_KEY=${SECRET_KEY}
+      - ALGORITHM=${ALGORITHM}
+      - ACCESS_TOKEN_MINUTES=${ACCESS_TOKEN_MINUTES}
+      # Or instead of listing all the variables we could just do this 
+    env_file:
+      - ./.env
+
+  # Use postgres/example user/password credentials
+
+  postgres:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker compose
+    shm_size: 128mb
+
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+
+#This is defined in the main aree so multiple containers can access them by calling the directory 
+volumes:
+  postgres-db:

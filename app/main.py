@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from . import models
+from app import models
 from .database import engine
 from .routers import user, post, auth, vote
 from .config import settings
@@ -28,10 +28,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-@app.get("/")
-async def main():
-    return {"message": "Hello World"}
 # Responsible for creating the table if not originally there
 # models.Base.metadata.create_all(bind=engine)
 
